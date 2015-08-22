@@ -109,16 +109,19 @@ class Ebooks::Boodoo::BoodooBot < Ebooks::Bot
 
   # Follow new followers, unfollow lost followers
   def follow_parity
-    followers = catch_twitter { twitter.followers(:count=>200).map(&:screen_name) }
-    following = catch_twitter { twitter.following(:count=>200).map(&:screen_name) }
-    to_follow = followers - following
-    to_unfollow = following - followers
-    twitter.follow(to_follow) unless to_follow.empty?
-    twitter.unfollow(to_unfollow) unless to_unfollow.empty?
-    @followers = followers
-    @following = following - to_unfollow
-    if !(to_follow.empty? || to_unfollow.empty?)
-      log "Followed #{to_follow.size}; unfollowed #{to_unfollow.size}."
+    twitter.following.each do |x|
+      sleep(3) #be nice to api
+      if !x.following?
+        twitter.unfollow(x)
+        log "Unfollowed #{x.screen_name}"
+      end
+    end
+    twitter.following.each do |x|
+      sleep(3) #be nice to api
+      if x.following?
+        twitter.follow(x)
+        log "Followed #{x.screen_name}"
+      end
     end
   end
 
