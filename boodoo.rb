@@ -134,7 +134,8 @@ class Ebooks::Boodoo::BoodooBot < Ebooks::Bot
   end
 
   def get_archive!
-    @archive = Archive.new(@original, @archive_path, make_client).sync
+    #LOWMEM-MODE
+    #@archive = Archive.new(@original, @archive_path, make_client).sync
   end
 
   def block(*args)
@@ -142,10 +143,11 @@ class Ebooks::Boodoo::BoodooBot < Ebooks::Bot
   end
 
   def make_model!
-    log "Updating model: #{@model_path}"
-    Ebooks::Model.consume(@archive_path).save(@model_path)
-    log "Loading model..."
-    @model = Ebooks::Model.load(@model_path)
+    #LOWMEM-MODE
+    #log "Updating model: #{@model_path}"
+    #Ebooks::Model.consume(@archive_path).save(@model_path)
+    #log "Loading model..."
+    #@model = Ebooks::Model.load(@model_path)
   end
 
   def can_run?
