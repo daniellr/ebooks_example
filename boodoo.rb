@@ -146,8 +146,8 @@ class Ebooks::Boodoo::BoodooBot < Ebooks::Bot
     #LOWMEM-MODE
     #log "Updating model: #{@model_path}"
     #Ebooks::Model.consume(@archive_path).save(@model_path)
-    #log "Loading model..."
-    #@model = Ebooks::Model.load(@model_path)
+    log "Loading model..."
+    @model = Ebooks::Model.load(@model_path)
   end
 
   def can_run?
